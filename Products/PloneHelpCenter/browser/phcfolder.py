@@ -58,8 +58,10 @@ class HelpCenterFolderView(BrowserView):
             items = []
             for item in context.getFolderContents(contentFilter = kwargs):
                 sections = item.getSections
-                if sections and len(sections) < 2:
-                    items.append(item)
+                if isinstance(sections, (list,tuple)):
+                    sections = filter(None, sections)
+                    if not len(sections):
+                        items.append(item)
             return items
         else:
             if isinstance(section, basestring):
